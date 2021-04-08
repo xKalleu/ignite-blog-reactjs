@@ -11,7 +11,7 @@ export const Comments: React.FC = () => (
       scriptElem.setAttribute('repo', 'xKalleu/blog-ignite-utteranc-comments');
       scriptElem.setAttribute('issue-term', 'pathname');
       scriptElem.setAttribute('label', 'blog-comment');
-      scriptElem.setAttribute('theme', 'github-light');
+      scriptElem.setAttribute('theme', 'github-dark');
       elem.appendChild(scriptElem);
     }}
   />

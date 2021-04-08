@@ -16,6 +16,7 @@ import styles from './post.module.scss';
 
 interface Post {
   first_publication_date: string | null;
+  last_publication_date: string | null;
   data: {
     title: string;
     banner: {
@@ -81,8 +82,6 @@ export default function Post({ post }: PostProps): JSX.Element {
         style={{ backgroundImage: `url(${post.data.banner.url})` }}
       />
 
-      <Comments />
-
       <main className={`${commonStyles.contentContainer} ${styles.container}`}>
         <section>
           <h1>{post.data.title}</h1>
@@ -107,6 +106,19 @@ export default function Post({ post }: PostProps): JSX.Element {
               <span>{estimatedReadTime} min</span>
             </div>
           </section>
+          <section>
+            <div>
+              <span style={{ fontStyle: 'italic' }}>
+                {format(
+                  new Date(post.last_publication_date),
+                  "'* editado em' dd MMM yyyy 'às' HH:mm",
+                  {
+                    locale: ptBR,
+                  }
+                )}
+              </span>
+            </div>
+          </section>
         </section>
 
         <article>
@@ -124,6 +136,7 @@ export default function Post({ post }: PostProps): JSX.Element {
           ))}
         </article>
       </main>
+      <Comments />
     </>
   );
 }
@@ -150,6 +163,13 @@ export const getStaticProps: GetStaticProps<PostProps> = async context => {
   const { slug } = context.params;
 
   const response = await prismic.getByUID('publication', String(slug), {});
+  const postsResponse = await prismic.query(
+    [Prismic.Predicates.at('document.type', 'publication')],
+    {
+      pageSize: 3,
+    }
+  );
+  console.log(postsResponse);
 
   return {
     props: {
