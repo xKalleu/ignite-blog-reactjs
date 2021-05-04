@@ -162,6 +162,8 @@ export const getStaticProps: GetStaticProps<PostProps> = async context => {
   const prismic = getPrismicClient();
   const { slug } = context.params;
 
+
+
   const response = await prismic.getByUID('publication', String(slug), {});
   const postsResponse = await prismic.query(
     [Prismic.Predicates.at('document.type', 'publication')],
